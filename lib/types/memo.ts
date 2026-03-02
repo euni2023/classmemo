@@ -1,0 +1,24 @@
+/**
+ * Memo 관련 타입 정의
+ */
+
+export interface Memo {
+  id: number;
+  user_id: number;
+  topic_id: number;
+  activity_content: string;
+  reflection: string | null;
+  created_at: string;
+  updated_at?: string;
+  /** AI 분석 결과 (admin 분석 후 저장) */
+  ai_analysis?: string | null;
+  /** AI 분석 수행 시각 */
+  ai_analyzed_at?: string | null;
+}
+
+export interface MemoButtonProps {
+  topicId: number;
+  topicTitle: string;
+}
+
+
