@@ -10,6 +10,8 @@ export default function LoginButton() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoginMode, setIsLoginMode] = useState(true);
+  const [name, setName] = useState('');
+  const [snumber, setSnumber] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
@@ -59,12 +61,20 @@ export default function LoginButton() {
         const { error } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            data: {
+              name: name || email.split('@')[0],
+              snumber: snumber || null,
+            },
+          },
         });
         if (error) {
           alert('회원가입 실패: ' + error.message);
         } else {
           alert('회원가입 성공! 이메일 확인 후 로그인하세요.');
           setIsLoginMode(true);
+          setName('');
+          setSnumber('');
           setEmail('');
           setPassword('');
         }
@@ -124,6 +134,26 @@ export default function LoginButton() {
             required
             className="rounded-md border border-zinc-300 bg-white px-2 py-1 text-sm text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
           />
+          {!isLoginMode && (
+            <>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="이름"
+                required
+                className="rounded-md border border-zinc-300 bg-white px-2 py-1 text-sm text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
+              />
+              <input
+                type="text"
+                value={snumber}
+                onChange={(e) => setSnumber(e.target.value)}
+                placeholder="학번"
+                required
+                className="rounded-md border border-zinc-300 bg-white px-2 py-1 text-sm text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
+              />
+            </>
+          )}
           <button
             type="submit"
             disabled={isSubmitting}

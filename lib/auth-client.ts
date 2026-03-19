@@ -36,11 +36,13 @@ export async function getCurrentUserClient() {
     // 사용자가 없으면 자동 생성
     if (userError || !user) {
       console.log(`[Auth Client] User ${authUser.email} not found in 'users' table, creating...`);
+      const metadata = (authUser as any).user_metadata ?? {};
       const { data: newUser, error: createError } = await supabase
         .from('users')
         .insert({
           email: authUser.email,
-          name: authUser.email.split('@')[0], // 이메일 앞부분을 이름으로 사용
+          name: (metadata.name as string) || authUser.email.split('@')[0],
+          snumber: (metadata.snumber as string) || null,
           role: 'user', // 기본 역할은 'user'
         })
         .select('*')
