@@ -102,7 +102,7 @@ export default async function Home() {
   return (
     <div>
       <header>
-        <h1>수업 주제 관리</h1>
+        <h1>수업 질문 관리</h1>
         <LoginButton />
         {isAdmin && <WritePostButton />} {/* 관리자만 표시 */}
       </header>

@@ -181,13 +181,13 @@ export default function TopicDetail({ topic, isOpen, onClose }: TopicDetailProps
                 onChange={(e) => setTitle(e.target.value)}
                 required
                 className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                placeholder="주제 제목을 입력하세요"
+                placeholder="수업 질문을 입력하세요"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                학습 내용
+                수업 내용
               </label>
               <textarea
                 value={goals}
@@ -195,13 +195,13 @@ export default function TopicDetail({ topic, isOpen, onClose }: TopicDetailProps
                 required
                 rows={4}
                 className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                placeholder="학습 내용을 입력하세요"
+                placeholder="수업 내용을 입력하세요"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                단원 핵심 역량
+                핵심 역량
               </label>
               <textarea
                 value={activity}
@@ -209,13 +209,13 @@ export default function TopicDetail({ topic, isOpen, onClose }: TopicDetailProps
                 required
                 rows={4}
                 className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                placeholder="단원 핵심 역량을 입력하세요"
+                placeholder="핵심 역량을 입력하세요"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                주차 (선택사항)
+                관련 단원
               </label>
               <input
                 type="number"
@@ -223,7 +223,7 @@ export default function TopicDetail({ topic, isOpen, onClose }: TopicDetailProps
                 onChange={(e) => setWeeks(e.target.value === '' ? '' : Number(e.target.value))}
                 min="1"
                 className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                placeholder="주차를 입력하세요"
+                placeholder="관련 수업 단원을 입력하세요"
               />
             </div>
 
@@ -249,7 +249,7 @@ export default function TopicDetail({ topic, isOpen, onClose }: TopicDetailProps
             {topic.weeks && (
               <div>
                 <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                  {topic.weeks}주차
+                  {topic.weeks}단원
                 </p>
               </div>
             )}
@@ -260,7 +260,7 @@ export default function TopicDetail({ topic, isOpen, onClose }: TopicDetailProps
             </div>
             <div>
               <h4 className="mb-1 text-sm font-medium text-zinc-600 dark:text-zinc-400">
-                학습 내용
+                수업 내용
               </h4>
               <p className="mb-4 whitespace-pre-wrap text-zinc-700 dark:text-zinc-300">
                 {topic.goals}
@@ -268,7 +268,7 @@ export default function TopicDetail({ topic, isOpen, onClose }: TopicDetailProps
             </div>
             <div>
               <h4 className="mb-1 text-sm font-medium text-zinc-600 dark:text-zinc-400">
-                단원 핵심 역량
+                핵심 역량
               </h4>
               <p className="whitespace-pre-wrap text-zinc-700 dark:text-zinc-300">
                 {topic.activity}
@@ -328,7 +328,7 @@ export default function TopicDetail({ topic, isOpen, onClose }: TopicDetailProps
                         </div>
                         <div className="mb-2">
                           <h4 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                            배운 내용을 자신의 말로 설명하기
+                            수업 내용
                           </h4>
                           <p className="mt-1 whitespace-pre-wrap text-sm text-zinc-600 dark:text-zinc-400">
                             {memo.activity_content}
@@ -337,7 +337,7 @@ export default function TopicDetail({ topic, isOpen, onClose }: TopicDetailProps
                         {memo.reflection && (
                           <div>
                             <h4 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                              배운 내용과 관련해 추가로 궁금한 점 질문하기
+                              핵심 역량
                             </h4>
                             <p className="mt-1 whitespace-pre-wrap text-sm text-zinc-600 dark:text-zinc-400">
                               {memo.reflection}

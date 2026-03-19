@@ -32,7 +32,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
             href="/"
             className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
           >
-            ← 수업 주제 목록
+            ← 수업 질문 목록
           </Link>
         </header>
         <TopicPageClient topic={topic} isAdmin={isAdmin} />

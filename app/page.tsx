@@ -56,14 +56,14 @@ export default async function Home() {
             <LoginButton />
           </div>
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-semibold text-zinc-900 dark:text-zinc-50">
-              수업 주제
-            </h1>
+          <h1 className="text-3xl font-semibold text-zinc-900 dark:text-zinc-50">
+              수업 질문
+          </h1>
             {isAdmin && <TopicCreateButton />}
           </div>
         </header>
 
-        {/* 수업 주제 목록 (메모는 주제별 페이지에서만 표시) */}
+        {/* 수업 질문 목록 (메모는 주제별 페이지에서만 표시) */}
         {error ? (
           <div className="rounded-lg border border-zinc-200 bg-white px-6 py-8 text-center text-zinc-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400">
             데이터를 불러오는 중 오류가 발생했습니다.
@@ -72,10 +72,10 @@ export default async function Home() {
           <div className="rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
             {(topics ?? []).length === 0 ? (
               <div className="px-6 py-12 text-center text-zinc-500 dark:text-zinc-400">
-                등록된 수업 주제가 없습니다.
+                등록된 수업 질문이 없습니다.
               </div>
             ) : (
-              <ul className="divide-y divide-zinc-200 dark:divide-zinc-800">
+          <ul className="divide-y divide-zinc-200 dark:divide-zinc-800">
                 {(topics ?? []).map((topic: Topic) => {
                   const memoCount = currentUser && !isAdmin ? (memoCountByTopicId[topic.id] ?? 0) : null;
                   return (
@@ -83,10 +83,10 @@ export default async function Home() {
                       <Link
                         href={`/topics/${topic.id}`}
                         className="flex items-center justify-between px-6 py-4 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900"
-                      >
-                        <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
+              >
+                  <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
                           {topic.title}
-                        </h2>
+                  </h2>
                         {memoCount !== null ? (
                           <span className="text-sm text-zinc-600 dark:text-zinc-400">
                             {memoCount}개
@@ -95,14 +95,14 @@ export default async function Home() {
                           <span className="text-sm text-zinc-400 dark:text-zinc-500">&gt;</span>
                         )}
                       </Link>
-                    </li>
+              </li>
                   );
                 })}
-              </ul>
+          </ul>
             )}
             {(topics ?? []).length > 0 && (
               <div className="border-t border-zinc-200 bg-white px-6 py-3 text-sm text-zinc-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400">
-                총 {(topics ?? []).length}개의 수업 주제
+                총 {(topics ?? []).length}개의 수업 질문
               </div>
             )}
           </div>

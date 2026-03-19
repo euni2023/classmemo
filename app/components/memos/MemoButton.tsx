@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createBrowserClient } from '@/lib/supabase/client';
 import { getCurrentUserClient } from '@/lib/auth-client';
-import { MemoButtonProps, Memo } from '@/lib/types';
+import { MemoButtonProps, Memo, MemoDifficulty } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 
 export default function MemoButton({ topicId, topicTitle }: MemoButtonProps) {
@@ -14,6 +14,7 @@ export default function MemoButton({ topicId, topicTitle }: MemoButtonProps) {
   const [isWriting, setIsWriting] = useState(false);
   const [activityContent, setActivityContent] = useState('');
   const [reflection, setReflection] = useState('');
+  const [difficulty, setDifficulty] = useState<MemoDifficulty>('보통');
   const [editingMemo, setEditingMemo] = useState<Memo | null>(null);
   const [hasMemo, setHasMemo] = useState(false);
   const router = useRouter();
@@ -97,6 +98,7 @@ export default function MemoButton({ topicId, topicTitle }: MemoButtonProps) {
           .update({
             activity_content: activityContent,
             reflection: reflection || null,
+            difficulty: difficulty || null,
           })
           .eq('id', editingMemo.id)
           .eq('user_id', user.id);
@@ -109,6 +111,7 @@ export default function MemoButton({ topicId, topicTitle }: MemoButtonProps) {
           topic_id: topicId,
           activity_content: activityContent,
           reflection: reflection || null,
+          difficulty: difficulty || null,
         });
 
         if (error) throw error;
@@ -116,6 +119,7 @@ export default function MemoButton({ topicId, topicTitle }: MemoButtonProps) {
 
       setActivityContent('');
       setReflection('');
+      setDifficulty('보통');
       setEditingMemo(null);
       setIsWriting(false);
       await loadMemos();
@@ -153,6 +157,7 @@ export default function MemoButton({ topicId, topicTitle }: MemoButtonProps) {
     setEditingMemo(memo);
     setActivityContent(memo.activity_content);
     setReflection(memo.reflection || '');
+    setDifficulty((memo.difficulty as MemoDifficulty) || '보통');
     setIsWriting(true);
   };
 
@@ -160,6 +165,7 @@ export default function MemoButton({ topicId, topicTitle }: MemoButtonProps) {
     setEditingMemo(null);
     setActivityContent('');
     setReflection('');
+    setDifficulty('보통');
     setIsWriting(false);
   };
 
@@ -249,9 +255,16 @@ export default function MemoButton({ topicId, topicTitle }: MemoButtonProps) {
                           </div>
                         </div>
                         <div className="mb-2">
-                          <h4 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                            배운 내용을 자신의 말로 설명하기
-                          </h4>
+                          <div className="mb-1 flex items-center justify-between">
+                            <h4 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                              수업 질문에 대해 자신의 말로 설명하기
+                            </h4>
+                            {memo.difficulty && (
+                              <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+                                난이도: {memo.difficulty}
+                              </span>
+                            )}
+                          </div>
                           <p className="mt-1 whitespace-pre-wrap text-sm text-zinc-600 dark:text-zinc-400">
                             {memo.activity_content}
                           </p>
@@ -259,7 +272,7 @@ export default function MemoButton({ topicId, topicTitle }: MemoButtonProps) {
                         {memo.reflection && (
                           <div>
                             <h4 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                              배운 내용과 관련해 추가로 궁금한 점 질문하기
+                              수업 질문과 관련하여 스스로 질문 만들기
                             </h4>
                             <p className="mt-1 whitespace-pre-wrap text-sm text-zinc-600 dark:text-zinc-400">
                               {memo.reflection}
@@ -275,7 +288,23 @@ export default function MemoButton({ topicId, topicTitle }: MemoButtonProps) {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                    배운 내용을 자신의 말로 설명하기
+                    수업 질문에 대한 난이도 평가하기
+                  </label>
+                  <select
+                    value={difficulty}
+                    onChange={(e) => setDifficulty(e.target.value as MemoDifficulty)}
+                    className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
+                  >
+                    <option value="매우 쉬움">매우 쉬움</option>
+                    <option value="쉬움">쉬움</option>
+                    <option value="보통">보통</option>
+                    <option value="어려움">어려움</option>
+                    <option value="매우 어려움">매우 어려움</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                  수업 질문에 대해 자신의 말로 설명하기
                   </label>
                   <textarea
                     value={activityContent}
@@ -283,13 +312,13 @@ export default function MemoButton({ topicId, topicTitle }: MemoButtonProps) {
                     required
                     rows={4}
                     className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                    placeholder="배운 내용을 자신의 말로 설명하기"
+                    placeholder="수업 질문에 대해 자신의 말로 설명하기"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                    배운 내용과 관련해 추가로 궁금한 점 질문하기
+                  수업 질문과 관련하여 스스로 질문 만들기
                   </label>
                   <textarea
                     value={reflection}

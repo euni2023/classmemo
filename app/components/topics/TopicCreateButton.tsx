@@ -80,7 +80,7 @@ export default function TopicCreateButton() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                  제목
+                  수업 질문
                 </label>
                 <input
                   type="text"
@@ -88,13 +88,13 @@ export default function TopicCreateButton() {
                   onChange={(e) => setTitle(e.target.value)}
                   required
                   className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                  placeholder="주제 제목을 입력하세요"
+                  placeholder="수업 질문을 입력하세요"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                  학습 내용
+                  수업 내용
                 </label>
                 <textarea
                   value={goals}
@@ -102,13 +102,13 @@ export default function TopicCreateButton() {
                   required
                   rows={4}
                   className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                  placeholder="학습 내용을 입력하세요"
+                  placeholder="수업 내용을 입력하세요"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                  단원 핵심 역량
+                  핵심 역량
                 </label>
                 <textarea
                   value={activity}
@@ -116,13 +116,13 @@ export default function TopicCreateButton() {
                   required
                   rows={4}
                   className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                  placeholder="단원 핵심 역량을 입력하세요"
+                  placeholder="핵심 역량을 입력하세요"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                  주차 (선택사항)
+                  관련 단원
                 </label>
                 <input
                   type="number"
@@ -130,7 +130,7 @@ export default function TopicCreateButton() {
                   onChange={(e) => setWeeks(e.target.value === '' ? '' : Number(e.target.value))}
                   min="1"
                   className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                  placeholder="주차를 입력하세요"
+                  placeholder="관련 수업 단원을 입력하세요"
                 />
               </div>
 

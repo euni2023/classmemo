@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createBrowserClient } from '@/lib/supabase/client';
 import { getCurrentUserClient, isAdminClient, isUserClient } from '@/lib/auth-client';
-import { Memo, Topic } from '@/lib/types';
+import { Memo, MemoDifficulty, Topic } from '@/lib/types';
 import { USER_ROLES } from '@/lib/constants/roles';
 import { useRouter } from 'next/navigation';
 import TopicDeleteButton from '../topics/TopicDeleteButton';
@@ -50,6 +50,7 @@ export default function MemoListView({
   const [isWritingMemo, setIsWritingMemo] = useState(false);
   const [activityContent, setActivityContent] = useState('');
   const [reflection, setReflection] = useState('');
+  const [difficulty, setDifficulty] = useState<MemoDifficulty>('보통');
   const [editingMemo, setEditingMemo] = useState<Memo | null>(null);
   // admin용 AI 분석
   const [analyzingMemo, setAnalyzingMemo] = useState<MemoWithUser | null>(null);
@@ -130,6 +131,7 @@ export default function MemoListView({
           .update({
             activity_content: activityContent,
             reflection: reflection || null,
+            difficulty: difficulty || null,
           })
           .eq('id', editingMemo.id)
           .eq('user_id', currentUser.id);
@@ -142,6 +144,7 @@ export default function MemoListView({
           topic_id: topic.id,
           activity_content: activityContent,
           reflection: reflection || null,
+          difficulty: difficulty || null,
         });
 
         if (error) throw error;
@@ -149,6 +152,7 @@ export default function MemoListView({
 
       setActivityContent('');
       setReflection('');
+      setDifficulty('보통');
       setEditingMemo(null);
       setIsWritingMemo(false);
       await loadMemos();
@@ -193,6 +197,7 @@ export default function MemoListView({
     setEditingMemo(memo);
     setActivityContent(memo.activity_content);
     setReflection(memo.reflection || '');
+    setDifficulty((memo.difficulty as MemoDifficulty) || '보통');
     setIsWritingMemo(true);
   };
 
@@ -201,6 +206,7 @@ export default function MemoListView({
     setEditingMemo(null);
     setActivityContent('');
     setReflection('');
+    setDifficulty('보통');
     setIsWritingMemo(false);
   };
 
@@ -410,7 +416,7 @@ export default function MemoListView({
 
             <div>
               <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-              배운 내용을 자신의 말로 설명하기
+              수업 질문에 대해 자신의 말로 설명하기
               </label>
               <textarea
                 value={editGoals}
@@ -418,13 +424,13 @@ export default function MemoListView({
                 required
                 rows={3}
                 className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                placeholder="배운 내용을 자신의 말로 설명하기"
+                placeholder="수업 질문에 대해 자신의 말로 설명하기"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-              배운 내용과 관련해 추가로 궁금한 점
+              수업 질문과 관련하여 스스로 질문 만들기
               </label>
               <textarea
                 value={editActivity}
@@ -432,13 +438,13 @@ export default function MemoListView({
                 required
                 rows={3}
                 className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                placeholder="배운 내용과 관련해 추가로 궁금한 점"
+                placeholder="수업 질문과 관련하여 스스로 질문 만들기"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                주차 (선택사항)
+                단원 (선택사항)
               </label>
               <input
                 type="number"
@@ -448,7 +454,7 @@ export default function MemoListView({
                 }
                 min="1"
                 className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                placeholder="주차를 입력하세요"
+                placeholder="단원을 입력하세요"
               />
             </div>
 
@@ -481,13 +487,13 @@ export default function MemoListView({
           <>
             {topic.weeks && (
               <p className="mb-3 text-sm text-zinc-500 dark:text-zinc-400">
-                {topic.weeks}주차
+                {topic.weeks}단원
               </p>
             )}
             <div className="mt-3 space-y-2">
               <div>
                 <h3 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                  학습 내용
+                  수업 내용
                 </h3>
                 <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                   {topic.goals}
@@ -495,7 +501,7 @@ export default function MemoListView({
               </div>
               <div>
                 <h3 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                  단원 핵심 역량
+                  핵심 역량
                 </h3>
                 <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                   {topic.activity}
@@ -613,9 +619,16 @@ export default function MemoListView({
                   </div>
                 </div>
                 <div className="mb-2">
-                  <h4 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                    배운 내용을 자신의 말로 설명하기
-                  </h4>
+                  <div className="flex items-start justify-between gap-2">
+                    <h4 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                      수업 질문에 대해 자신의 말로 설명하기
+                    </h4>
+                    {memo.difficulty && (
+                      <span className="shrink-0 rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+                        난이도: {memo.difficulty}
+                      </span>
+                    )}
+                  </div>
                   <p className="mt-1 whitespace-pre-wrap text-sm text-zinc-600 dark:text-zinc-400">
                     {memo.activity_content}
                   </p>
@@ -623,7 +636,7 @@ export default function MemoListView({
                 {memo.reflection && (
                   <div>
                     <h4 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                      배운 내용과 관련해 추가로 궁금한 점 질문하기
+                      수업 질문과 관련하여 스스로 질문 만들기
                     </h4>
                     <p className="mt-1 whitespace-pre-wrap text-sm text-zinc-600 dark:text-zinc-400">
                       {memo.reflection}
@@ -657,7 +670,23 @@ export default function MemoListView({
             <form onSubmit={handleMemoSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                  배운 내용을 자신의 말로 설명하기
+                  수업 질문에 대한 난이도 평가하기
+                </label>
+                <select
+                  value={difficulty}
+                  onChange={(e) => setDifficulty(e.target.value as MemoDifficulty)}
+                  className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
+                >
+                  <option value="매우 쉬움">매우 쉬움</option>
+                  <option value="쉬움">쉬움</option>
+                  <option value="보통">보통</option>
+                  <option value="어려움">어려움</option>
+                  <option value="매우 어려움">매우 어려움</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                  수업 질문에 대해 자신의 말로 설명하기
                 </label>
                 <textarea
                   value={activityContent}
@@ -665,12 +694,12 @@ export default function MemoListView({
                   required
                   rows={5}
                   className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                  placeholder="배운 내용을 자신의 말로 설명해 주세요"
+                  placeholder="수업 질문에 대해 자신의 말로 설명해 주세요"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                  배운 내용과 관련해 추가로 궁금한 점 질문하기
+                  수업 질문과 관련하여 스스로 질문 만들기
                 </label>
                 <textarea
                   value={reflection}

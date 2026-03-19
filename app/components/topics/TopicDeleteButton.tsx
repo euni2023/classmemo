@@ -45,7 +45,7 @@ export default function TopicDeleteButton({
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation(); // 리스트 항목 클릭 이벤트 전파 방지
 
-    if (!confirm(`"${topicTitle}" 주제를 삭제하시겠습니까?`)) {
+    if (!confirm(`"${topicTitle}" 수업 질문을 삭제하시겠습니까?`)) {
       return;
     }
 
