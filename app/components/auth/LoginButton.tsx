@@ -10,6 +10,7 @@ export default function LoginButton() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoginMode, setIsLoginMode] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -34,34 +35,45 @@ export default function LoginButton() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (isSubmitting) return; // 중복 요청 방지
+    
+    setIsSubmitting(true);
     const supabase = createBrowserClient();
 
-    if (isLoginMode) {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) {
-        alert('로그인 실패: ' + error.message);
+    try {
+      if (isLoginMode) {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        if (error) {
+          alert('로그인 실패: ' + error.message);
+        } else {
+          setEmail('');
+          setPassword('');
+          // 세션 확인 및 페이지 새로고침
+          router.refresh();
+        }
       } else {
-        setEmail('');
-        setPassword('');
-        // 세션 확인 및 페이지 새로고침
-        router.refresh();
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+        });
+        if (error) {
+          alert('회원가입 실패: ' + error.message);
+        } else {
+          alert('회원가입 성공! 이메일 확인 후 로그인하세요.');
+          setIsLoginMode(true);
+          setEmail('');
+          setPassword('');
+        }
       }
-    } else {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-      if (error) {
-        alert('회원가입 실패: ' + error.message);
-      } else {
-        alert('회원가입 성공! 이메일 확인 후 로그인하세요.');
-        setIsLoginMode(true);
-        setEmail('');
-        setPassword('');
-      }
+    } catch (error) {
+      console.error('인증 오류:', error);
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -114,9 +126,10 @@ export default function LoginButton() {
           />
           <button
             type="submit"
-            className="rounded-md bg-foreground px-3 py-1 text-sm font-medium text-background hover:bg-zinc-700 dark:hover:bg-zinc-300"
+            disabled={isSubmitting}
+            className="rounded-md bg-black px-3 py-1 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoginMode ? '로그인' : '가입'}
+            {isSubmitting ? '처리 중...' : (isLoginMode ? '로그인' : '회원 가입')}
           </button>
         </form>
       </div>
@@ -128,9 +141,9 @@ export default function LoginButton() {
         )}
         <button
           onClick={() => setIsLoginMode(!isLoginMode)}
-          className="text-sm text-zinc-600 dark:text-zinc-400 hover:underline"
+          className="rounded-md bg-gray-200 px-2 py-1 text-xs font-medium text-black hover:bg-gray-300"
         >
-          {isLoginMode ? '회원가입' : '로그인'}
+          {isLoginMode ? '회원 가입' : '로그인'}
         </button>
         
       </div>

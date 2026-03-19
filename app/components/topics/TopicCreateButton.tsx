@@ -57,9 +57,9 @@ export default function TopicCreateButton() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background hover:bg-zinc-700 dark:hover:bg-zinc-300"
+        className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400"
       >
-        글쓰기
+        +
       </button>
 
       {isOpen && (
@@ -94,15 +94,15 @@ export default function TopicCreateButton() {
 
               <div>
                 <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                  수업 내용
+                  참고 코드
                 </label>
                 <textarea
                   value={goals}
                   onChange={(e) => setGoals(e.target.value)}
                   required
                   rows={4}
-                  className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                  placeholder="수업 내용을 입력하세요"
+                  className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 font-mono dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
+                  placeholder="참고 코드를 입력하세요"
                 />
               </div>
 

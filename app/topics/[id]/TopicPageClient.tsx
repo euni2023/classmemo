@@ -22,7 +22,7 @@ export default function TopicPageClient({ topic, isAdmin }: TopicPageClientProps
   };
 
   return (
-    <div className="h-[calc(100vh-180px)] rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+    <div className="rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
       <MemoListView
         topic={topic}
         isAdminFromServer={isAdmin}

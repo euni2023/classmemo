@@ -187,15 +187,15 @@ export default function TopicDetail({ topic, isOpen, onClose }: TopicDetailProps
 
             <div>
               <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                수업 내용
+                참고 코드
               </label>
               <textarea
                 value={goals}
                 onChange={(e) => setGoals(e.target.value)}
                 required
                 rows={4}
-                className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                placeholder="수업 내용을 입력하세요"
+                className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 font-mono dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
+                placeholder="참고 코드를 입력하세요"
               />
             </div>
 

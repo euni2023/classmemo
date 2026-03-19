@@ -402,7 +402,7 @@ export default function MemoListView({
           <form onSubmit={handleTopicUpdate} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                제목
+                수업 질문
               </label>
               <input
                 type="text"
@@ -410,13 +410,13 @@ export default function MemoListView({
                 onChange={(e) => setEditTitle(e.target.value)}
                 required
                 className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                placeholder="주제 제목을 입력하세요"
+                placeholder="수업 질문을 입력하세요"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-              수업 질문에 대해 자신의 말로 설명하기
+                참고 코드
               </label>
               <textarea
                 value={editGoals}
@@ -424,13 +424,13 @@ export default function MemoListView({
                 required
                 rows={3}
                 className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                placeholder="수업 질문에 대해 자신의 말로 설명하기"
+                placeholder="참고 코드를 입력하세요"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-              수업 질문과 관련하여 스스로 질문 만들기
+                핵심 역량
               </label>
               <textarea
                 value={editActivity}
@@ -438,7 +438,7 @@ export default function MemoListView({
                 required
                 rows={3}
                 className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-                placeholder="수업 질문과 관련하여 스스로 질문 만들기"
+                placeholder="핵심 역량을 입력하세요"
               />
             </div>
 
@@ -493,11 +493,11 @@ export default function MemoListView({
             <div className="mt-3 space-y-2">
               <div>
                 <h3 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                  수업 내용
+                  참고 코드
                 </h3>
-                <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                <pre className="mt-1 rounded-md bg-zinc-50 p-3 text-sm text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 font-mono whitespace-pre-wrap">
                   {topic.goals}
-                </p>
+                </pre>
               </div>
               <div>
                 <h3 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">

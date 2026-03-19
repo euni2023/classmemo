@@ -30,7 +30,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
         <header className="mb-4">
           <Link
             href="/"
-            className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            className="inline-flex items-center rounded-md bg-orange-500 px-3 py-1 text-sm font-medium text-white hover:bg-orange-600"
           >
             ← 수업 질문 목록
           </Link>
