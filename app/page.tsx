@@ -47,20 +47,6 @@ export default async function Home() {
         {/* 헤더 */}
         <header className="mb-6">
           <div className="mb-4 flex items-center justify-end gap-3">
-            <span className="text-sm text-zinc-500 dark:text-zinc-400">사용자 정보:</span>
-            {currentUser ? (
-              <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-                <span className="font-medium">역할:</span>{' '}
-                <span className="rounded-md bg-zinc-200 px-2 py-1 dark:bg-zinc-800">
-                  {currentUser.role}
-                </span>
-                <span className="text-xs text-zinc-400 dark:text-zinc-500">
-                  (isUser: {isUser ? 'true' : 'false'})
-                </span>
-              </div>
-            ) : (
-              <span className="text-sm text-zinc-400 dark:text-zinc-500">로그인 필요</span>
-            )}
             {currentUser && <LoginButton />}
           </div>
         </header>

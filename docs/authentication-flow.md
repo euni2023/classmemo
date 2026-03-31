@@ -272,7 +272,7 @@ TopicListItem.tsx
 
 ### 5. `app/components/auth/LoginButton.tsx` - 로그인 UI
 
-**역할**: 사용자 로그인/회원가입/로그아웃 UI 제공
+**역할**: 사용자 로그인/로그아웃 UI 제공 (회원가입 기능 제거됨)
 
 **주요 기능**:
 
@@ -284,10 +284,9 @@ TopicListItem.tsx
    })
    ```
 
-2. **로그인/회원가입**
+2. **로그인**
    ```typescript
    signInWithPassword() // 로그인
-   signUp() // 회원가입
    ```
 
 3. **로그아웃**
